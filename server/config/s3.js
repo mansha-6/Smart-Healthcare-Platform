@@ -1,35 +1,47 @@
-const AWS = require('aws-sdk');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
-const multerS3 = require('multer-s3');
 
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION || 'us-east-1'
-});
+// Check if Cloudinary keys are present
+const isCloudinaryConfigured = process.env.CLOUDINARY_CLOUD_NAME && 
+                               process.env.CLOUDINARY_API_KEY && 
+                               process.env.CLOUDINARY_API_SECRET;
 
-const s3 = new AWS.S3();
+let storage;
 
-// For local testing without S3 keys, we might fallback to diskStorage
-// But sticking to the S3 plan. If env vars missing, it will fail or need handling.
-// I'll add a check.
+if (isCloudinaryConfigured) {
+    // Configure Cloudinary with env variables
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET
+    });
 
-const storage = process.env.AWS_ACCESS_KEY_ID ? multerS3({
-  s3: s3,
-  bucket: process.env.S3_BUCKET,
-  acl: 'public-read',
-  key: function (req, file, cb) {
-    cb(null, `reports/${Date.now().toString()}-${file.originalname}`)
-  }
-}) : multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/')
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname)
-  }
-});
+    storage = new CloudinaryStorage({
+        cloudinary: cloudinary,
+        params: {
+            folder: 'smart_healthcare',
+            allowed_formats: ['jpg', 'png', 'jpeg', 'pdf'],
+            resource_type: 'auto',
+        },
+    });
+    console.log('Using Cloudinary Storage');
+} else {
+    // Fallback to Local Disk Storage
+    const fs = require('fs');
+    if (!fs.existsSync('uploads')) fs.mkdirSync('uploads');
+
+    storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, 'uploads/');
+        },
+        filename: function (req, file, cb) {
+            cb(null, Date.now() + '-' + file.originalname);
+        },
+    });
+    console.log('Using Local Disk Storage (Cloudinary keys missing)');
+}
 
 const upload = multer({ storage: storage });
 
-module.exports = { upload, s3 };
+module.exports = { upload, cloudinary };

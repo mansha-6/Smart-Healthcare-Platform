@@ -44,7 +44,9 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             {/* System Status Indicator Removed */}
             
-            {token ? (
+            {/* Logic: Hide all if on Login/Register. If on Home (/), show Login buttons only if NOT logged in. If logged in on Home, show nothing (clean). */
+             ['/login', '/register'].includes(location.pathname) ? null :
+             token && location.pathname !== '/' ? (
               <>
                 <Link to="/dashboard" className="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
                 <NotificationPanel />
@@ -55,9 +57,13 @@ const Navbar = () => {
                   Logout
                 </button>
               </>
+            ) : token && location.pathname === '/' ? (
+                null // User requested to remove Dashboard link from Home even if logged in
             ) : (
-             // Links removed as per user request to rely on in-page auth navigation
-             null
+                <div className="flex items-center gap-4">
+                    <Link to="/login" className="text-gray-600 hover:text-primary font-medium">Login</Link>
+                    <Link to="/register" className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition shadow-md">Get Started</Link>
+                </div>
             )}
           </div>
         </div>

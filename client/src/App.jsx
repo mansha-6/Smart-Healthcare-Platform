@@ -1,11 +1,11 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import ProtectedRoute from './components/auth/ProtectedRoute';
+import ProtectedRoute from './components/Auth/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import DoctorList from './pages/DoctorList';
-import DoctorProfile from './pages/DoctorProfile';
+import DoctorProfile from './pages/DoctorProfile.jsx';
 import DoctorDashboard from './pages/DoctorDashboard';
 import PatientDashboard from './pages/PatientDashboard';
 import Login from './pages/Login'; // Will need to implement

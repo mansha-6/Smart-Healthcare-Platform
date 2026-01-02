@@ -27,7 +27,7 @@ A unified digital healthcare platform connecting Patients, Doctors, and Administ
 - **Backend:** [Node.js](https://nodejs.org/), [Express](https://expressjs.com/)
 - **Database:** [MongoDB](https://www.mongodb.com/)
 - **Real-time:** [Socket.io](https://socket.io/), [WebRTC](https://webrtc.org/) (Simple-Peer)
-- **Storage:** AWS S3 (or local fallback)
+- **Storage:** Cloudinary (Primary) with Local Fallback
 - **Containerization:** Docker & Docker Compose
 
 ## 📋 Prerequisites
@@ -46,11 +46,10 @@ PORT=5000
 MONGO_URI=mongodb://127.0.0.1:27017/smart_healthcare
 JWT_SECRET=your_jwt_secret_key_here
 
-# AWS S3 (Optional - for file uploads)
-AWS_ACCESS_KEY_ID=your_access_key
-AWS_SECRET_ACCESS_KEY=your_secret_key
-AWS_REGION=us-east-1
-S3_BUCKET=your_bucket_name
+# Cloudinary (Optional - for image upload optimization)
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 ```
 
 ### Client (`client/.env`)

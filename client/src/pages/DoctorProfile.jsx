@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { fetchDoctorById } from '../api/doctorApi';
 import API from '../api';
 import AppointmentForm from '../components/AppointmentForm';
-import BookingWidget from '../components/Doctor/BookingWidget';
+import BookingWidget from '../components/doctor/BookingWidget';
 import { Star, User, MapPin, Clock } from 'lucide-react';
 
 const DoctorProfile = () => {

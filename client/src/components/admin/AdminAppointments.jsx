@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Calendar, Video, MessageSquare, Check, X, CheckSquare, Search, Filter, Clock } from 'lucide-react';
 
-const AdminAppointments = () => {
+import { useNavigate } from 'react-router-dom';
+
+const AdminAppointments = ({ onMessageClick }) => {
+    const navigate = useNavigate();
     // Mock Data (Reusing the structure from DoctorAppointments as requested)
     const [appointments, setAppointments] = useState([
         {
             _id: '1',
-            patient: { name: 'Alex Johnson', image: 'https://randomuser.me/api/portraits/men/32.jpg', gender: 'Male' },
+            patient: { _id: 'p1', name: 'Alex Johnson', image: 'https://randomuser.me/api/portraits/men/32.jpg', gender: 'Male' },
             doctor: { name: 'Dr. Sarah Jones', spec: 'Neurology' },
             date: new Date().toISOString(),
             time: '09:00 AM',
@@ -16,7 +19,7 @@ const AdminAppointments = () => {
         },
         {
             _id: '2',
-            patient: { name: 'Sarah Williams', image: 'https://randomuser.me/api/portraits/women/44.jpg', gender: 'Female' },
+            patient: { _id: 'p2', name: 'Sarah Williams', image: 'https://randomuser.me/api/portraits/women/44.jpg', gender: 'Female' },
             doctor: { name: 'Dr. John Smith', spec: 'Cardiology' },
             date: new Date(Date.now() + 86400000).toISOString(),
             time: '10:30 AM',
@@ -26,7 +29,7 @@ const AdminAppointments = () => {
         },
         {
             _id: '3',
-            patient: { name: 'Michael Brown', image: 'https://randomuser.me/api/portraits/men/85.jpg', gender: 'Male' },
+            patient: { _id: 'p3', name: 'Michael Brown', image: 'https://randomuser.me/api/portraits/men/85.jpg', gender: 'Male' },
             doctor: { name: 'Dr. Emily Brown', spec: 'Orthopedics' },
             date: new Date(Date.now() + 172800000).toISOString(),
             time: '02:00 PM',
@@ -124,7 +127,10 @@ const AdminAppointments = () => {
 
                                 {/* Action Buttons Row */}
                                 <div className="flex w-full gap-3">
-                                    <button className="flex-1 py-3 rounded-2xl border border-gray-200 text-gray-700 font-bold text-sm hover:bg-gray-50 flex items-center justify-center gap-2 transition">
+                                    <button 
+                                        onClick={() => onMessageClick && onMessageClick(apt.patient)}
+                                        className="flex-1 py-3 rounded-2xl border border-gray-200 text-gray-700 font-bold text-sm hover:bg-gray-50 flex items-center justify-center gap-2 transition"
+                                    >
                                         <MessageSquare size={18} /> Chat
                                     </button>
                                     
@@ -140,7 +146,10 @@ const AdminAppointments = () => {
                                     )}
 
                                     {isConfirmed && (
-                                        <button className="flex-1 py-3 rounded-2xl border border-gray-200 text-gray-700 font-bold text-sm hover:bg-gray-50 flex items-center justify-center gap-2 transition">
+                                        <button 
+                                            onClick={() => navigate('/teleconsult')}
+                                            className="flex-1 py-3 rounded-2xl border border-gray-200 text-gray-700 font-bold text-sm hover:bg-gray-50 flex items-center justify-center gap-2 transition"
+                                        >
                                             <Video size={18} /> Join Call
                                         </button>
                                     )}

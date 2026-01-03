@@ -208,7 +208,7 @@ const BookingModal = ({ doctor, onClose, onSuccess }) => {
                     <p className="text-gray-500 mb-6 max-w-xs mx-auto">
                         Your appointment with {doctor.name} on {date} at {time} has been successfully booked.
                     </p>
-                    <button onClick={onClose} className="w-full py-3 bg-teal-600 text-white font-bold rounded-xl hover:bg-teal-700 transition shadow-lg">
+                    <button onClick={() => window.location.href = '/dashboard/appointments'} className="w-full py-3 bg-teal-600 text-white font-bold rounded-xl hover:bg-teal-700 transition shadow-lg">
                         Go to Appointments
                     </button>
                 </div>

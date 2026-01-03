@@ -25,7 +25,7 @@ const BloodPressureWidget = () => {
                 </div>
             </div>
 
-            <div className="h-64 my-6">
+            <div className="h-64 my-6 min-h-[250px]">
                  <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={data}>
                         <XAxis 

@@ -57,7 +57,7 @@ function App() {
             </Route>
 
             {/* Shared Protected Routes */}
-            <Route element={<ProtectedRoute allowedRoles={['patient', 'doctor']} />}>
+            <Route element={<ProtectedRoute allowedRoles={['patient', 'doctor', 'admin']} />}>
               <Route path="/teleconsult" element={<Teleconsult />} />
             </Route>
           </Routes>

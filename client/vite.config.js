@@ -18,8 +18,6 @@ export default defineConfig({
       process: "process/browser",
       stream: "stream-browserify",
       zlib: "browserify-zlib",
-      util: "util",
-      events: "events",
     },
   },
   optimizeDeps: {

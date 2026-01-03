@@ -39,9 +39,11 @@ exports.protect = async (req, res, next) => {
 // New: Role authorization middleware
 exports.authorize = (...roles) => {
   return (req, res, next) => {
-    console.log(`[Auth] Checking role for user ${req.user?._id}. User Role: ${req.user?.role}. Required: ${roles}`);
+    console.log(`[Auth] Checking role for user ${req.user?._id}. User Role: "${req.user?.role}". Required: ${JSON.stringify(roles)}`);
     if (!req.user || !roles.includes(req.user.role)) {
       console.warn(`[Auth] Access Denied. User role '${req.user?.role}' is not in [${roles}]`);
+      // Debug: Dump user object
+      console.log('User Object Dump:', JSON.stringify(req.user, null, 2));
       return res.status(403).json({ 
         message: `User role ${req.user?.role} is not authorized to access this route` 
       });

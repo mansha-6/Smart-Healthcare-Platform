@@ -48,7 +48,7 @@ export default function DoctorCard({ doctor, onBook }) {
              </div>
              <div className="flex items-center gap-1">
                 <MapPin size={12} />
-                <span>New York</span>
+                <span>{doctor.address || 'New York'}</span>
              </div>
           </div>
         </div>

@@ -99,6 +99,12 @@ const DoctorDashboard = () => {
                         Patient Directory
                     </button>
                     <button 
+                        onClick={() => navigate('/teleconsult')}
+                        className={`w-full text-left px-4 py-2 rounded transition hover:bg-gray-50 text-gray-600`}
+                    >
+                        Teleconsultation
+                    </button>
+                    <button 
                         onClick={() => setActiveTab('prescriptions')}
                         className={`w-full text-left px-4 py-2 rounded transition ${activeTab === 'prescriptions' ? 'bg-teal-50 text-teal-600 font-medium' : 'hover:bg-gray-50 text-gray-600'}`}
                     >

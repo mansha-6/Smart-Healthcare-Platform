@@ -12,23 +12,37 @@ import AdminAppointments from '../components/admin/AdminAppointments';
 import AdminDepartments from '../components/admin/AdminDepartments';
 import ReportsPanel from '../components/admin/ReportsPanel';
 import { Home } from 'lucide-react';
+import ChatInterface from '../components/Chat/ChatInterface'; // Import
 
 const AdminDashboard = () => {
   const { logout } = useAuth();
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('hospital_dashboard');
+  const [chatTarget, setChatTarget] = useState(null);
+
+  const handleMessageClick = (patient) => {
+      // Normalize target for chat
+      setChatTarget({
+          id: patient._id || patient.id,
+          name: patient.name,
+          avatar: patient.image,
+          specialty: 'Patient' 
+      });
+      setActiveTab('messages');
+  };
 
   const renderContent = () => {
       switch (activeTab) {
           case 'hospital_dashboard': return <HospitalDashboard />;
-          case 'medical_dashboard': return <MedicalDashboard />; // New Route
-          case 'accounts': return <AccountsDashboard />; // Accounts Route
+          case 'medical_dashboard': return <MedicalDashboard />;
+          case 'accounts': return <AccountsDashboard />;
           case 'doctors': return <DoctorManagement />;
           case 'patients': return <PatientManagement />;
           case 'staff': return <StaffManagement />;
-          case 'appointments': return <AdminAppointments />;
+          case 'appointments': return <AdminAppointments onMessageClick={handleMessageClick} />;
           case 'departments': return <AdminDepartments />;
           case 'reports': return <ReportsPanel />;
+          case 'messages': return <div className="h-[calc(100vh-140px)]"><ChatInterface role="admin" initialContact={chatTarget} /></div>;
           default: return <HospitalDashboard />;
       }
   };

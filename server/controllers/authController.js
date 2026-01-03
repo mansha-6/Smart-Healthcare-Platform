@@ -7,11 +7,12 @@ exports.register = async (req, res) => {
     const { name, email, password, role, specialization, experience, fees, phone, address, medicalHistory, gender, age } = req.body;
     console.log('Register Request Body:', JSON.stringify(req.body, null, 2));
 
-    let user = await User.findOne({ email });
-    console.log('Existing User Check Result:', user ? `Found User: ${user.email}` : 'No User Found');
+    // Check for existing user with SAME email AND role
+    let user = await User.findOne({ email, role });
+    console.log('Existing User Check Result:', user ? `Found User: ${user.email} (${user.role})` : 'No User Found');
 
     if (user) {
-        console.log('Returning 400: User alreasy exists');
+        console.log('Returning 400: User already exists');
         return res.status(400).json({ message: 'User already exists' });
     }
 
@@ -52,9 +53,15 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body; // Role is now required/optional but useful for disambiguation
 
-    const user = await User.findOne({ email });
+    // Try to find user by email AND role if role is provided
+    let query = { email };
+    if (role) {
+        query.role = role;
+    }
+
+    const user = await User.findOne(query);
     if (!user) return res.status(400).json({ message: 'Invalid Credentials' });
 
     const isMatch = await bcrypt.compare(password, user.password);

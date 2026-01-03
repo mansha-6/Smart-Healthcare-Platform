@@ -17,7 +17,8 @@ import PatientSettings from './PatientSettings';
 import ChatInterface from '../components/Chat/ChatInterface'; // Correct placement
 
 const PatientDashboard = () => {
-  // ... (existing code)
+  const location = window.location;
+  console.log('[DEBUG] PatientDashboard Location:', location.pathname);
 
   return (
     <div className="flex min-h-screen bg-gray-50 font-sans">

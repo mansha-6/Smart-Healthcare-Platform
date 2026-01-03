@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { useAuth } from '../../context/AuthContext';
 import { Send, User as UserIcon, MessageSquare } from 'lucide-react';
@@ -9,6 +10,7 @@ const socket = io('http://localhost:5000');
 
 const ChatInterface = ({ role, initialContact }) => {
     const { user } = useAuth();
+    const location = useLocation();
     const [contacts, setContacts] = useState([]);
     const [selectedContact, setSelectedContact] = useState(null);
     const [messages, setMessages] = useState([]);
@@ -94,12 +96,11 @@ const ChatInterface = ({ role, initialContact }) => {
     
     // Effect to select initial contact once contacts are loaded (or just set it directly)
     useEffect(() => {
-        if (initialContact && !selectedContact) {
-            // Need to ensure it's in the list first, which loadContacts handles, 
-            // but we can also set it directly to be responsive.
-            setSelectedContact(initialContact);
+        const target = location.state?.contact || initialContact;
+        if (target && !selectedContact) {
+            setSelectedContact(target);
         }
-    }, [initialContact]);
+    }, [initialContact, location.state]);
 
     // Load Message History when contact selected
     useEffect(() => {

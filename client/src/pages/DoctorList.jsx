@@ -21,74 +21,74 @@ const DoctorList = () => {
     { 
         _id: "mock-1", name: "Dr. Chloe Kelly", specialization: "Neurologist", experience: 12, fees: 60, rating: 4.9, 
         image: "https://randomuser.me/api/portraits/women/60.jpg",
-        bio: "Expert in neurological disorders with a focus on migraine and stroke prevention. providing compassionate care for over a decade.",
-        isAvailable: true, gender: "Female", address: "Central Hospital, NY"
+        bio: "Expert in neurological disorders with a focus on migraine and stroke prevention.",
+        isAvailable: true, gender: "Female", address: "Harley Street, London"
     },
     { 
         _id: "mock-2", name: "Dr. Lauren Hemp", specialization: "Orthopedic", experience: 8, fees: 55, rating: 4.8, 
         image: "https://randomuser.me/api/portraits/men/33.jpg",
-        bio: "Specializing in sports injuries and joint replacement surgeries. Dedicated to getting you back to your active lifestyle.",
-        isAvailable: true, gender: "Male", address: "Ortho Clinic, NY"
+        bio: "Specializing in sports injuries and joint replacement surgeries.",
+        isAvailable: true, gender: "Male", address: "City Hospital, Sydney"
     },
     { 
         _id: "mock-3", name: "Dr. Stefan Persson", specialization: "Cardiologist", experience: 15, fees: 75, rating: 5.0, 
         image: "https://randomuser.me/api/portraits/men/86.jpg",
-        bio: "Renowned cardiologist with extensive experience in interventional cardiology and heart failure management.",
-        isAvailable: true, gender: "Male", address: "Heart Institute, NY"
+        bio: "Renowned cardiologist with extensive experience in heart failure management.",
+        isAvailable: true, gender: "Male", address: "Heart Institute, New York"
     },
     { 
         _id: "mock-4", name: "Dr. Emily Blunt", specialization: "Dermatologist", experience: 6, fees: 45, rating: 4.7, 
         image: "https://randomuser.me/api/portraits/women/44.jpg",
-        bio: "Focusing on cosmetic and medical dermatology. Helping you achieve healthy, glowing skin with personalized treatments.",
-        isAvailable: true, gender: "Female", address: "Skin Care Center, NY"
+        bio: "Focusing on cosmetic and medical dermatology.",
+        isAvailable: true, gender: "Female", address: "Skin Care Center, Los Angeles"
     },
     { 
         _id: "mock-5", name: "Dr. James Wilson", specialization: "Pediatrician", experience: 10, fees: 50, rating: 4.9, 
         image: "https://randomuser.me/api/portraits/men/12.jpg",
-        bio: "Friendly and caring pediatrician dedicated to the health and well-being of children from infancy through adolescence.",
-        isAvailable: true, gender: "Male", address: "Kids Health, NY"
+        bio: "Friendly and caring pediatrician dedicated to children's health.",
+        isAvailable: true, gender: "Male", address: "Kids Health, Chicago"
     },
     { 
         _id: "mock-6", name: "Dr. Sarah Connor", specialization: "Psychiatrist", experience: 14, fees: 70, rating: 4.8, 
         image: "https://randomuser.me/api/portraits/women/68.jpg",
-        bio: "Compassionate psychiatrist specializing in anxiety, depression, and stress management. Here to listen and help.",
-        isAvailable: true, gender: "Female", address: "Mind Wellness, NY"
+        bio: "Compassionate psychiatrist specializing in anxiety and stress management.",
+        isAvailable: true, gender: "Female", address: "Mind Wellness, Mumbai"
     },
     { 
         _id: "mock-7", name: "Dr. Robert Stark", specialization: "General Physician", experience: 20, fees: 40, rating: 4.6, 
         image: "https://randomuser.me/api/portraits/men/45.jpg",
-        bio: "Experienced general practitioner providing comprehensive primary care for the whole family.",
-        isAvailable: true, gender: "Male", address: "City Clinic, NY"
+        bio: "Experienced general practitioner providing comprehensive primary care.",
+        isAvailable: true, gender: "Male", address: "City Clinic, Delhi"
     },
     { 
         _id: "mock-8", name: "Dr. Lisa Cuddy", specialization: "Endocrinologist", experience: 11, fees: 65, rating: 4.9, 
         image: "https://randomuser.me/api/portraits/women/32.jpg",
-        bio: "Specialist in hormone-related diseases including diabetes, thyroid disorders, and metabolic imbalances.",
-        isAvailable: false, gender: "Female", address: "Metabolic Center, NY"
+        bio: "Specialist in hormone-related diseases including diabetes.",
+        isAvailable: false, gender: "Female", address: "Metabolic Center, Dubai"
     },
     { 
         _id: "mock-9", name: "Dr. Gregory House", specialization: "Nephrologist", experience: 18, fees: 80, rating: 4.5, 
         image: "https://randomuser.me/api/portraits/men/99.jpg",
-        bio: "Expert in kidney diseases and hypertension. Known for diagnosing complex cases.",
-        isAvailable: true, gender: "Male", address: "Teaching Hospital, NY"
+        bio: "Expert in kidney diseases and diagnosing complex cases.",
+        isAvailable: true, gender: "Male", address: "Teaching Hospital, Toronto"
     },
     { 
         _id: "mock-10", name: "Dr. Meredith Grey", specialization: "General Surgeon", experience: 10, fees: 90, rating: 4.9, 
         image: "https://randomuser.me/api/portraits/women/24.jpg",
-        bio: "Skilled general surgeon with expertise in abdominal surgeries and trauma care.",
-        isAvailable: true, gender: "Female", address: "Seattle Greys, NY"
+        bio: "Skilled general surgeon with expertise in trauma care.",
+        isAvailable: true, gender: "Female", address: "Seattle Greys, Sydney"
     },
     { 
         _id: "mock-11", name: "Dr. Derek Shepherd", specialization: "Neurologist", experience: 15, fees: 100, rating: 5.0, 
         image: "https://randomuser.me/api/portraits/men/50.jpg",
-        bio: "World-class neurosurgeon specializing in complex brain and spine surgeries.",
-        isAvailable: true, gender: "Male", address: "Neuro Center, NY"
+        bio: "World-class neurosurgeon specializing in brain surgeries.",
+        isAvailable: true, gender: "Male", address: "Neuro Center, New York"
     },
     { 
         _id: "mock-12", name: "Dr. Cristina Yang", specialization: "Cardiologist", experience: 12, fees: 95, rating: 5.0, 
         image: "https://randomuser.me/api/portraits/women/48.jpg",
-        bio: "Highly skilled cardiothoracic surgeon focused on advanced heart procedures.",
-        isAvailable: true, gender: "Female", address: "Heart Center, NY"
+        bio: "Highly skilled cardiothoracic surgeon.",
+        isAvailable: true, gender: "Female", address: "Heart Center, London"
     }
   ];
 
@@ -121,7 +121,10 @@ const DoctorList = () => {
         const nameMatch = doc.name.toLowerCase().includes(searchTerm.toLowerCase());
         const specMatch = doc.specialization?.toLowerCase().includes(searchSpec.toLowerCase());
         const cityMatch = !searchCity || (doc.address && doc.address.toLowerCase().includes(searchCity.toLowerCase()));
-        const availMatch = !searchAvail || (searchAvail === 'available' ? doc.isAvailable : true);
+        
+        let availMatch = true;
+        if (searchAvail === 'available') availMatch = doc.isAvailable;
+        if (searchAvail === 'unavailable') availMatch = !doc.isAvailable;
         
         return nameMatch && specMatch && cityMatch && availMatch;
     });
@@ -157,13 +160,16 @@ const DoctorList = () => {
                 <option key={spec} value={spec}>{spec}</option>
             ))}
         </select>
-        <input 
-            type="text" 
-            placeholder="Location..." 
-            className="border p-2 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
+        <select
+            className="border p-2 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none bg-white"
             value={searchCity}
             onChange={(e) => setSearchCity(e.target.value)}
-        />
+        >
+            <option value="">All Locations</option>
+            {['New York', 'Los Angeles', 'Chicago', 'London', 'Mumbai', 'Delhi', 'Dubai', 'Toronto', 'Sydney'].map(city => (
+                <option key={city} value={city}>{city}</option>
+            ))}
+        </select>
         <select
             className="border p-2 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none bg-white"
             value={searchAvail}
@@ -171,6 +177,7 @@ const DoctorList = () => {
         >
             <option value="">All Availability</option>
             <option value="available">Available Now</option>
+            <option value="unavailable">Not Available</option>
         </select>
       </div>
 

@@ -4,7 +4,7 @@ const sendNotification = require('../utils/notify');
 
 exports.bookAppointment = async (req, res) => {
   try {
-    const { doctorId, date, time, reason, doctorName, type, fees } = req.body;
+    const { doctorId, date, time, reason, doctorName, doctorImage, type, fees } = req.body;
     const patientId = req.user.id; 
 
     // 1. Validation
@@ -21,6 +21,8 @@ exports.bookAppointment = async (req, res) => {
     const appointment = new Appointment({
       patientId,
       doctorId,
+      doctorName, // Save snapshot
+      doctorImage,
       date,
       time,
       reason,
@@ -54,9 +56,87 @@ exports.bookAppointment = async (req, res) => {
 
 exports.getMyAppointments = async (req, res) => {
   try {
-    const appointments = await Appointment.find({ patientId: req.user.id }).populate('doctorId', 'name specialization');
-    res.json(appointments);
+    console.log(`[DEBUG] getMyAppointments called by UserID: ${req.user.id}`);
+    // 1. Fetch raw appointments (No populate to avoid CastErrors on mock IDs)
+    const appointments = await Appointment.find({ patientId: req.user.id }).sort({ date: -1 }).lean();
+    console.log(`[DEBUG] Found ${appointments.length} appointments for UserID: ${req.user.id}`);
+
+    // 2. Extract valid Doctor ObjectIds for manual lookup
+    // Only filter for strings that look like valid 24-char hex ObjectIds to prevent crashes
+    const validDoctorIds = [...new Set(appointments
+        .map(a => a.doctorId)
+        .filter(id => id && typeof id === 'string' && id.match(/^[0-9a-fA-F]{24}$/))
+    )];
+
+    // 3. Fetch Doctor Details
+    let doctors = [];
+    if (validDoctorIds.length > 0) {
+        doctors = await User.find({ _id: { $in: validDoctorIds } }, 'name specialization image').lean();
+    }
+    
+    // Create a Lookup Map for O(1) access
+    const doctorMap = {};
+    doctors.forEach(doc => {
+        doctorMap[doc._id.toString()] = doc;
+    });
+
+    // 4. Fetch Prescriptions
+    const Prescription = require('../models/Prescription');
+    const prescriptions = await Prescription.find({ patientId: req.user.id }).lean();
+    
+    // 5. Merge Data
+    const result = appointments.map(apt => {
+        try {
+            // Determine Doctor Details
+            // Priority: 1. Real User DB lookup, 2. Snapshot in Appointment, 3. Fallback
+            let docDetails = doctorMap[apt.doctorId ? apt.doctorId.toString() : ''] || {};
+            
+            // If manual lookup failed (e.g. mock ID), check snapshot
+            const finalDocName = docDetails.name || apt.doctorName || 'Unknown Doctor';
+            const finalDocImage = docDetails.image || apt.doctorImage || '/assets/doctors/dr_male.jpg';
+            const finalDocSpec = docDetails.specialization || 'General';
+
+            const hasPrescription = prescriptions.find(p => {
+                if (!p.doctorId || !apt.doctorId) return false;
+                if (!p.date || !apt.date) return false; 
+
+                // Loose equality for IDs (one might be string, other object)
+                const isSameDoc = p.doctorId.toString() === apt.doctorId.toString();
+                
+                const pDate = new Date(p.date);
+                const aDate = new Date(apt.date);
+                
+                const isSameDay = pDate.getDate() === aDate.getDate() &&
+                                  pDate.getMonth() === aDate.getMonth() &&
+                                  pDate.getFullYear() === aDate.getFullYear();
+                
+                return isSameDoc && isSameDay; 
+            });
+            
+            return { 
+                ...apt,
+                doctorId: {
+                    _id: apt.doctorId, // Keep the ID as stored
+                    name: finalDocName,
+                    image: finalDocImage,
+                    specialization: finalDocSpec
+                },
+                hasPrescription: !!hasPrescription, 
+                prescriptionId: hasPrescription?._id 
+            };
+        } catch (innerErr) {
+            console.error(`Error mapping appointment ${apt._id}:`, innerErr);
+             return { 
+                ...apt,
+                doctorId: { name: 'Error Loading Doctor', image: '' },
+                hasPrescription: false 
+            };
+        }
+    });
+
+    res.json(result);
   } catch (error) {
+    console.error("Error fetching appointments:", error);
     res.status(500).json({ message: 'Server Error' });
   }
 };

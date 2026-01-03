@@ -15,7 +15,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await loginUser({ email, password });
+      const { data } = await loginUser({ email, password, role });
       login(data.user, data.token);
       if (data.user.role === 'admin') {
         navigate('/admin-dashboard');

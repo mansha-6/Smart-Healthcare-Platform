@@ -2,6 +2,7 @@ import React from 'react';
 import VitalsWidget from './VitalsWidget';
 import HealthEventsWidget from './Overview/HealthEventsWidget';
 import BloodPressureWidget from './Overview/BloodPressureWidget';
+import LatestPrescriptionWidget from './Overview/LatestPrescriptionWidget';
 import HealthSidebar from './Overview/HealthSidebar';
 
 const DashboardHome = () => {
@@ -21,6 +22,9 @@ const DashboardHome = () => {
 
                     {/* Blood Pressure History */}
                     <BloodPressureWidget />
+
+                    {/* Latest Prescription */}
+                    <LatestPrescriptionWidget />
                 </div>
 
                 {/* Right Column (1/3) - Sidebar */}

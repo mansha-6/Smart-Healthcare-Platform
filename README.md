@@ -65,7 +65,20 @@ This will start both the client, server, and a local MongoDB instance.
 docker-compose up --build
 ```
 - **Client:** http://localhost:5173
+- **Client:** http://localhost:5173
 - **Server:** http://localhost:5000
+
+### 🧪 Seeding Sample Data
+
+To populate the database with dummy appointments, patients, and doctors:
+
+```bash
+# General data
+docker-compose exec server node seed_doctors.js
+
+# Sample past appointments (for History tab)
+docker-compose exec server node seed_active_user.js
+```
 
 ---
 

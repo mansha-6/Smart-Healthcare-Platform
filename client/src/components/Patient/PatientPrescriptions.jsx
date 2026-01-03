@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import API from '../../api';
 import { useToast } from '../ui/ToastProvider';
 import { FileText, Download, Calendar } from 'lucide-react';
@@ -24,7 +25,10 @@ ${prescription.medicines.map(m => `- ${m.name}: ${m.dosage}`).join('\n')}
         `;
         
         try {
-            const filename = `Prescription_${prescription.doctorName.replace(/\s+/g, '_')}_${prescription.date.replace(/,/g, '')}.txt`;
+            // Sanitize filename: replace slashes, colons, commas, and spaces to prevent FS errors
+            const safeDate = prescription.date.replace(/[\/\\:,]/g, '-').replace(/\s+/g, '_');
+            const safeDocName = prescription.doctorName.replace(/[^a-zA-Z0-9]/g, '_');
+            const filename = `Prescription_${safeDocName}_${safeDate}.txt`;
             const file = new File([content], filename, { type: 'text/plain' });
             
             const formData = new FormData();
@@ -38,7 +42,8 @@ ${prescription.medicines.map(m => `- ${m.name}: ${m.dosage}`).join('\n')}
             showToast('Success', 'Prescription saved to Health Reports!', 'success');
         } catch (err) {
             console.error(err);
-            showToast('Error', 'Failed to save prescription', 'error');
+            const serverMsg = err.response?.data?.error || err.response?.data?.message || err.message;
+            showToast('Error', `Failed: ${serverMsg}`, 'error');
         }
     };
 
@@ -54,6 +59,13 @@ ${prescription.medicines.map(m => `- ${m.name}: ${m.dosage}`).join('\n')}
                     <span>{prescription.date}</span>
                 </div>
             </div>
+
+            {prescription.notes && (
+                <div className="mb-6 bg-yellow-50 p-4 rounded-lg border border-yellow-100">
+                    <h4 className="text-sm font-bold text-yellow-800 mb-1 uppercase tracking-wide">Doctor's Instructions</h4>
+                    <p className="text-sm text-yellow-900 leading-relaxed italic">"{prescription.notes}"</p>
+                </div>
+            )}
 
             <div className="mb-6">
                 <h4 className="text-sm font-medium text-gray-700 mb-3 uppercase tracking-wide">Medicine List</h4>
@@ -80,8 +92,24 @@ ${prescription.medicines.map(m => `- ${m.name}: ${m.dosage}`).join('\n')}
 
 const PatientPrescriptions = () => {
     const { showToast } = useToast();
+    const location = useLocation();
     const [prescriptions, setPrescriptions] = useState([]);
+    
+    console.log('[DEBUG] PatientPrescriptions MOUNTED. Location:', location.pathname);
     const [loading, setLoading] = useState(true);
+    const highlightId = location.state?.highlightId;
+
+    // Scroll to highlighted item
+    useEffect(() => {
+        if (highlightId && !loading && prescriptions.length > 0) {
+            const el = document.getElementById(`presc-${highlightId}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.classList.add('ring-2', 'ring-teal-500', 'ring-offset-2');
+                setTimeout(() => el.classList.remove('ring-2', 'ring-teal-500', 'ring-offset-2'), 3000);
+            }
+        }
+    }, [highlightId, loading, prescriptions]);
 
     const fetchPrescriptions = async () => {
         try {
@@ -122,14 +150,16 @@ const PatientPrescriptions = () => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {prescriptions.map((prescription) => (
-                        <PrescriptionCard key={prescription._id} prescription={{
-                            ...prescription,
-                            // Ensure date is formatted or object
-                            date: new Date(prescription.date).toLocaleDateString(),
-                            // Ensure doctorName exists
-                            doctorName: prescription.doctorId?.name || 'Doctor', 
-                            specialty: prescription.doctorId?.specialty || 'General' 
-                        }} />
+                        <div id={`presc-${prescription._id}`} key={prescription._id} className="transition-all duration-500">
+                             <PrescriptionCard prescription={{
+                                ...prescription,
+                                // Ensure date is formatted or object
+                                date: new Date(prescription.date).toLocaleDateString(),
+                                // Ensure doctorName exists
+                                doctorName: prescription.doctorId?.name || 'Doctor', 
+                                specialty: prescription.doctorId?.specialty || 'General' 
+                            }} />
+                        </div>
                     ))}
                 </div>
             )}

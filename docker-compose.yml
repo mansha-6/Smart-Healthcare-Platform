@@ -10,10 +10,13 @@ services:
     build: ./server
     ports:
       - "5000:5000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
     env_file:
       - ./server/.env
     environment:
-      - MONGO_URI=mongodb://mongo:27017/smart_healthcare # Override for Docker network
+      - MONGO_URI=mongodb://mongo:27017/smart_healthcare
     depends_on:
       - mongo
 
@@ -21,6 +24,9 @@ services:
     build: ./client
     ports:
       - "5173:5173"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
     env_file:
       - ./client/.env
     environment:

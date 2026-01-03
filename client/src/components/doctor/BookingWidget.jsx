@@ -46,7 +46,7 @@ const BookingWidget = ({ doctorId, fees, bio, schedule }) => {
                 reason: 'General Consultation' 
             });
             alert('Appointment booked successfully!');
-            window.location.href = '/appointments'; 
+            window.location.href = '/dashboard/appointments'; 
         } catch (error) {
             console.error(error);
             alert('Failed to book appointment. Please try again.');

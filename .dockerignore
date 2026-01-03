@@ -1,11 +1,6 @@
 node_modules
-npm-debug.log
 .git
-.gitignore
-.dockerignore
 .env
-build
-dist
-Dockerfile
-docker-compose.yml
-README.md
+client/node_modules
+server/node_modules
+server/uploads

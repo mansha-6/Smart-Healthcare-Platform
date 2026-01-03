@@ -65,14 +65,20 @@ mongoose.connect(mongoUri, { dbName: 'smartHealthcareDB' })
     console.error('If running locally, consider setting MONGO_URI to mongodb://127.0.0.1:27017/smart_healthcare');
   });
 
-// Basic Route
-app.get('/', (req, res) => {
-  res.send('Smart Healthcare Platform API is running');
-});
-
 // Health endpoint for quick checks
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
+});
+
+// ==========================================
+// SERVE STATIC FRONTEND (PRODUCTION)
+// ==========================================
+// Serve static files from the 'public' directory (we copied 'dist' here in Dockerfile)
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Handle React Routing, return all requests to React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const http = require('http');

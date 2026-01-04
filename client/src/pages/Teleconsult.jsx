@@ -8,6 +8,8 @@ window.global = window;
 window.process = process;
 window.Buffer = window.Buffer || [];
 
+import API, { BASE_URL } from '../api';
+
 const Teleconsult = () => {
   const [stream, setStream] = useState(null);
   const [me, setMe] = useState('');
@@ -25,7 +27,7 @@ const Teleconsult = () => {
   const socket = useRef();
 
   const { user } = useAuth();
-  const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+  // BASE_URL is now imported
 
   // Function to start the media stream with retry logic
   const startStream = async (videoPreference) => {

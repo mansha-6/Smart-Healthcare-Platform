@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+const BASE = import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' ? '' : 'http://127.0.0.1:5000');
+export const BASE_URL = BASE;
 const API = axios.create({ baseURL: `${BASE}/api` });
 
 // Add token to every request if available

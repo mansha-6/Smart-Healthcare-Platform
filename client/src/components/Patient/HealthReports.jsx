@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import API from '../../api';
+import API, { BASE_URL } from '../../api';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../ui/ToastProvider';
@@ -60,9 +60,6 @@ const HealthReports = () => {
             setUploading(false);
         }
     };
-
-    // Use the same base URL logic as the API client
-    const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
 
     const getFileUrl = (url) => {
         if (!url) return '';

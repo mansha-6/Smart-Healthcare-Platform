@@ -3,10 +3,10 @@ import { useLocation } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { useAuth } from '../../context/AuthContext';
 import { Send, User as UserIcon, MessageSquare } from 'lucide-react';
-import API from '../../api';
+import API, { BASE_URL } from '../../api';
 
 // Initialize socket outside component to prevent multiple connections
-const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:5000');
+const socket = io(BASE_URL || window.location.origin);
 
 const ChatInterface = ({ role, initialContact }) => {
     const { user } = useAuth();

@@ -30,7 +30,7 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="w-64 bg-white h-screen shadow-md flex-col fixed left-0 top-0 z-10 hidden md:flex">
+        <div className="w-64 bg-white h-screen shadow-md flex-col fixed left-0 top-0 z-10 hidden md:flex overflow-y-auto">
             <div className="p-6">
                 <div className="bg-white text-teal-700 rounded-md p-4 flex items-center justify-center gap-1 mb-8 shadow-sm border border-gray-100">
                    <img src={logo} alt="Logo" className="h-16 w-16 object-contain" />

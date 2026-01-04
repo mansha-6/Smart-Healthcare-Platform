@@ -61,7 +61,7 @@ const HealthReportsWidget = () => {
                                 <div className="flex items-center gap-2">
                                     {isRx && <span className="text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded uppercase font-bold">Rx</span>}
                                     <a 
-                                        href={report.fileUrl.startsWith('http') ? report.fileUrl : `http://localhost:5000/${report.fileUrl}`} 
+                                        href={report.fileUrl.startsWith('http') ? report.fileUrl : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/${report.fileUrl}`} 
                                         target="_blank" 
                                         rel="noopener noreferrer"
                                         className="p-2 hover:bg-gray-200 rounded-full text-gray-400 hover:text-gray-600 transition"

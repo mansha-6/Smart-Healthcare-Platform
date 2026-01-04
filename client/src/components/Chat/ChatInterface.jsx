@@ -6,7 +6,7 @@ import { Send, User as UserIcon, MessageSquare } from 'lucide-react';
 import API from '../../api';
 
 // Initialize socket outside component to prevent multiple connections
-const socket = io('http://localhost:5000');
+const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:5000');
 
 const ChatInterface = ({ role, initialContact }) => {
     const { user } = useAuth();

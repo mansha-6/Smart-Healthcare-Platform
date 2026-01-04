@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { registerUser } from '../api/authApi';
 import { Button } from '../components/ui/Button';
 import { User, Stethoscope, Shield, Lock } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -91,9 +92,9 @@ const Register = () => {
         <div className="w-full lg:w-7/12 p-8 md:p-12 flex flex-col justify-center bg-white relative">
             
             {/* Logo Area */}
-             <div className="mb-4 font-bold text-2xl flex items-center gap-2 text-blue-600">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg text-white flex items-center justify-center">✚</div>
-                MyHHub
+             <div className="mb-6 font-bold text-4xl flex items-center gap-4 text-blue-600">
+                <img src={logo} alt="Logo" className="h-20 w-20 object-contain" />
+                Practo
             </div>
 
             {/* Toggle Tabs */}

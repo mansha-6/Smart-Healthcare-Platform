@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import NotificationPanel from './NotificationPanel';
+import logo from '../assets/logo.png';
 
 const Navbar = () => {
   const [apiStatus, setApiStatus] = useState('unknown');
@@ -39,7 +40,10 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="text-2xl font-bold text-primary"></Link>
+            <Link to="/" className="text-2xl font-bold text-primary flex items-center gap-3">
+              <img src={logo} alt="Logo" className="h-14 w-12 object-contain" />
+              <span className="text-2xl">MediSync</span>
+            </Link>
           </div>
           <div className="flex items-center space-x-4">
             {/* System Status Indicator Removed */}

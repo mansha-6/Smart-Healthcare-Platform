@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, User, Activity, Calendar, FileText, Settings, Video, Search, LogOut, Clock, MessageSquare } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import logo from '../../assets/logo.png';
 
 const Sidebar = () => {
     const location = useLocation();
@@ -31,9 +32,9 @@ const Sidebar = () => {
     return (
         <div className="w-64 bg-white h-screen shadow-md flex flex-col fixed left-0 top-0 z-10 hidden md:flex">
             <div className="p-6">
-                <div className="bg-teal-700 text-white rounded-md p-3 flex items-center gap-2 mb-8 shadow-lg">
-                   <Home size={20} />
-                   <span className="font-bold text-lg">Practo</span>
+                <div className="bg-white text-teal-700 rounded-md p-4 flex items-center justify-center gap-1 mb-8 shadow-sm border border-gray-100">
+                   <img src={logo} alt="Logo" className="h-16 w-16 object-contain" />
+                   <span className="font-bold text-2xl tracking-tight">MediSync</span>
                 </div>
                 
                 <nav className="space-y-2">

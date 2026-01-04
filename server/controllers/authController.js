@@ -55,13 +55,14 @@ exports.login = async (req, res) => {
   try {
     const { email, password, role } = req.body; // Role is now required/optional but useful for disambiguation
 
-    // Try to find user by email AND role if role is provided
-    let query = { email };
-    if (role) {
-        query.role = role;
-    }
+    // 1. Try to find user by email AND role (Priority: Explicit Intent)
+    let user = await User.findOne({ email, role });
 
-    const user = await User.findOne(query);
+    // 2. If not found, try to find ANY user with that email (Fallback: Fix for default role mismatch)
+    // This handles cases where a Doctor logs in but the UI defaulted to 'patient'
+    if (!user) {
+        user = await User.findOne({ email });
+    }
     if (!user) return res.status(400).json({ message: 'Invalid Credentials' });
 
     const isMatch = await bcrypt.compare(password, user.password);

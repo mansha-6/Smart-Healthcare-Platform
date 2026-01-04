@@ -32,7 +32,7 @@ const RecordCard = ({ record }) => {
 
             <div className="flex gap-2">
                 <a 
-                    href={`http://127.0.0.1:5000/${record.fileUrl}`} 
+                    href={`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/${record.fileUrl}`} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-2 py-2.5 border border-teal-600 text-teal-600 rounded-lg hover:bg-teal-50 transition-colors font-medium text-sm"
@@ -40,7 +40,7 @@ const RecordCard = ({ record }) => {
                     <Eye size={16} /> View
                 </a>
                 <a 
-                    href={`http://127.0.0.1:5000/${record.fileUrl}`} 
+                    href={`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/${record.fileUrl}`} 
                     download
                     className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium text-sm"
                 >

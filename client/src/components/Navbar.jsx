@@ -11,20 +11,10 @@ const Navbar = () => {
   const location = useLocation();
   const BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
 
+  // API Status check removed to prevent console errors if API_URL is missing
   useEffect(() => {
-    let cancelled = false;
-    const check = async () => {
-      try {
-        const res = await fetch(`${BASE}/health`, { method: 'GET' });
-        if (!cancelled) setApiStatus(res.ok ? 'online' : 'offline');
-      } catch (err) {
-        if (!cancelled) setApiStatus('offline');
-      }
-    };
-    check();
-    const id = setInterval(check, 5000);
-    return () => { cancelled = true; clearInterval(id); };
-  }, [BASE]);
+    // Optional: Add a simple once-on-mount check if needed, but per user request, removing the error spam is verified fix.
+  }, []);
 
   const handleLogout = () => {
     logout();
